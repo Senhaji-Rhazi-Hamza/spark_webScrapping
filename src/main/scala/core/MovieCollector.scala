@@ -4,7 +4,7 @@ import java.io.{File, PrintWriter}
 
 import org.apache.spark.rdd.RDD
 import org.apache.spark.{SparkConf, SparkContext}
-import play.api.libs.json.{JsArray, JsObject}
+import play.api.libs.json.{JsArray, JsObject, JsUndefined}
 import utils.MovieUtils
 import utils.MovieUtils.Movie
 import utils.http.HttpUtils
@@ -19,9 +19,7 @@ object MovieCollector {
   def retrieveMovies(key : String) = {
     apiKey = key
     val writer = new PrintWriter(new File(pathToFile))
-    moviesToFind.foreach(query => {
-      writeMovieToFile(query, writer)
-    })
+    getAllMovies(157336, writer)
     writer.close()
   }
 
@@ -39,6 +37,29 @@ object MovieCollector {
     // Load the data and parse it into a Movie.
     sc.textFile(pathToFile)
       .flatMap(MovieUtils.StringToMovie)
+  }
+
+  def getMovieById(id: Int, writer: PrintWriter) = {
+    val url = "https://api.themoviedb.org/3/movie/" + id + "?api_key=" + apiKey
+    val query = HttpUtils.getContent(url)
+    query match {
+      case Some(json) => {
+        json.\("adult").isInstanceOf[JsUndefined] match {
+          case  false => {
+            val newJson = ReviewCollector.retrieveReviews(json.as[JsObject], apiKey)
+            writer.println(newJson.toString)
+
+          }
+          case true => None
+        }
+      }
+    }
+  }
+
+  def getAllMovies(nbMovies : Int, writer: PrintWriter) = {
+    for (id <- nbMovies until nbMovies + 100) {
+      getMovieById(id, writer)
+    }
   }
 
   def getFirstResultMovieId(name : String) : Option[Int] = {
