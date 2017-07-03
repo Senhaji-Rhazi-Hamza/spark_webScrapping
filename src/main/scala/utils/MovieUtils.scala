@@ -11,7 +11,6 @@ object MovieUtils {
 										adult: Option[Boolean],
 										genres: Option[List[Genre]],
 										original_title: Option[String],
-										//release_date: Date,
 										popularity: Option[Double],
 										vote_average: Option[Double],
 										vote_count: Option[Int],

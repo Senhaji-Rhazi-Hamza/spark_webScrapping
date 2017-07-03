@@ -19,9 +19,10 @@ object MovieCollector {
   def retrieveMovies(key : String) = {
     apiKey = key
     val writer = new PrintWriter(new File(pathToFile))
-    moviesToFind.foreach(query => {
+    /*moviesToFind.foreach(query => {
       writeMovieToFile(query, writer)
-    })
+    })*/
+    writeMovieToFileRange(1,10,writer)
     writer.close()
   }
 
@@ -54,7 +55,18 @@ object MovieCollector {
       case None => None
     }
   }
-
+  def writeMovieToFileRange(big:Int, end:Int, writer:PrintWriter) = {
+    for (id <- big to end) {
+      val url = "https://api.themoviedb.org/3/movie/" + id + "?api_key=" + apiKey
+      HttpUtils.getContent(url) match {
+        case Some(json) => {
+         /* val newJson = ReviewCollector.retrieveReviews(json.as[JsObject], apiKey)
+          */
+          writer.println(json.toString)
+        }
+      }
+    }
+  }
   def writeMovieToFile(name : String, writer : PrintWriter) = {
     val movieId = getFirstResultMovieId(name)
     movieId match {
@@ -63,7 +75,11 @@ object MovieCollector {
         HttpUtils.getContent(url) match {
           case Some(json) => {
             val newJson = ReviewCollector.retrieveReviews(json.as[JsObject], apiKey)
-            writer.println(newJson.toString)
+            newJson match
+            {
+              case x => writer.println(newJson.toString)
+              case empty =>
+            }
           }
         }
       }

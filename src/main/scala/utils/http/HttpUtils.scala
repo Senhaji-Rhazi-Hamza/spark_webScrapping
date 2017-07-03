@@ -5,7 +5,7 @@ import org.apache.http.impl.client.DefaultHttpClient
 import play.api.libs.json.{JsValue, Json}
 
 /**
-  * Created by muratcengiz on 02/07/17.
+  *
   */
 object HttpUtils {
 

@@ -29,8 +29,10 @@ object ReviewCollector {
     json match {
       case Some(x) => {
         (x \ "results").as[JsArray].value.toList
+
       }
     }
   }
+  
 
 }
