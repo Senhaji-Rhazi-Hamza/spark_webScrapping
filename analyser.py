@@ -2,6 +2,9 @@ import json
 import requests
 import sys
 
+# Usage: $ python analyser.py "blablabla"
+
+
 # The use of this script is limited to 1000 call by ip adress
 
 # Online sentiment analyser
