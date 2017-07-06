@@ -1,6 +1,14 @@
 package utils
+
+
+
+
+import core.{Review, ReviewCollector}
+
 import scala.collection.JavaConversions._
 import org.apache.kafka.clients.consumer.{ConsumerConfig, KafkaConsumer}
+
+import play.api.libs.json._
 import utils.myConsumer.props
 import utils.myProducer.props
 
@@ -10,7 +18,7 @@ import scala.collection.JavaConverters._
   */
 object myConsumer {
   import java.util.Properties
-  val localhost = "10.41.170.143"
+  val localhost = "10.41.175.16"
   val broker = localhost+":9092"
   val groupId = "test"
 
@@ -29,7 +37,8 @@ object myConsumer {
   }
   val props = createConsumerConfig(broker, groupId)
 
-  def listen(topic:String):Unit = {
+
+  def listenMovies(topic:String):Unit = {
 
     val config = new kafka.consumer.ConsumerConfig(props)
     val consumer =  kafka.consumer.Consumer.create(config)
@@ -40,6 +49,16 @@ object myConsumer {
     val msgs=consumerIterator.map(_.message())
     msgs.foreach(msg=>println(new String(msg)))
       //consumer.subscribe(TOPIC)
-
+  }
+  def listenReviews(topic:String, key:String):Unit = {
+    val apiKey = key
+    val config = new kafka.consumer.ConsumerConfig(props)
+    val consumer =  kafka.consumer.Consumer.create(config)
+    val numThread=1
+    val topicCounts=Map(topic->numThread)
+    val consumerMap= consumer.createMessageStreams(topicCounts)
+    val consumerIterator=consumerMap.get(topic).get.head.iterator()
+    val msgs=consumerIterator.map(_.message())
+    msgs.foreach(msg=> println(ReviewCollector.retrieveReviews(Json.parse(msg.toString).as[JsObject], key)) )
   }
 }
