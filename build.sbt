@@ -35,7 +35,7 @@ libraryDependencies += "org.apache.spark" %% "spark-core" % "2.0.0"
 libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.6"
 libraryDependencies += "org.apache.spark" % "spark-streaming_2.11" % "2.1.1"
 libraryDependencies += "org.apache.spark" % "spark-streaming-kafka-0-8_2.11" % "2.1.1"
-
+libraryDependencies += "org.apache.httpcomponents" % "httpclient" % "4.5.3"
 libraryDependencies ++= Seq(
   "org.apache.hbase" % "hbase-server" % "1.2.6",
   "org.apache.hbase" % "hbase-client" % "1.2.6",

@@ -18,7 +18,7 @@ import scala.collection.JavaConverters._
   */
 object myConsumer {
   import java.util.Properties
-  val localhost = "10.41.175.16"
+  val localhost = "localhost" //10.41.175.16
   val broker = localhost+":9092"
   val groupId = "test"
 
