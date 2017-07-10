@@ -16,7 +16,7 @@ object Main {
     }
     thread.start()*/
     val prod = myProducer
-    prod.sendmsg("ceci est un test", "localhost",topic)
+    MovieBis.getAllMovies(topic, apiKey)
     val hdfs = HDFS
     hdfs.record(topic)
     // myConsumer.listenMovies(topic)
