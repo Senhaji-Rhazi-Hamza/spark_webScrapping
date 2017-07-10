@@ -39,7 +39,11 @@ object myConsumer {
 
 
   def listenMovies(topic:String):Unit = {
-
+    val msgs=getmsgs(topic)
+    msgs.foreach(msg=>println(new String(msg)))
+      //consumer.subscribe(TOPIC)
+  }
+  def getmsgs(topic:String):Iterator[Array[Byte]] = {
     val config = new kafka.consumer.ConsumerConfig(props)
     val consumer =  kafka.consumer.Consumer.create(config)
     val numThread=1
@@ -47,9 +51,9 @@ object myConsumer {
     val consumerMap= consumer.createMessageStreams(topicCounts)
     val consumerIterator=consumerMap.get(topic).get.head.iterator()
     val msgs=consumerIterator.map(_.message())
-    msgs.foreach(msg=>println(new String(msg)))
-      //consumer.subscribe(TOPIC)
+    msgs
   }
+
   def listenReviews(topic:String, key:String):Unit = {
     val apiKey = key
     val config = new kafka.consumer.ConsumerConfig(props)
@@ -60,5 +64,6 @@ object myConsumer {
     val consumerIterator=consumerMap.get(topic).get.head.iterator()
     val msgs=consumerIterator.map(_.message())
     msgs.foreach(msg=> println(ReviewCollector.retrieveReviews(Json.parse(msg.toString).as[JsObject], key)) )
+
   }
 }
