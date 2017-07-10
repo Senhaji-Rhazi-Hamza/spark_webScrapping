@@ -11,20 +11,22 @@ from kafka import KafkaConsumer
 
 # Online sentiment analyser
 url = "http://text-processing.com/api/sentiment/"
-
+topic = sys.argv[2]
+host = sys.argv[1]
 lang = "english"
 
-def consume():
-	consume_topic = "lolol"
-	consume_host = "localhost:9092"
+def consume(topic, host):
+	consume_topic = topic
+	consume_host = host
 
 	consumer = KafkaConsumer(group_id='my-group',
                          bootstrap_servers=consume_host)
                          #value_deserializer=lambda m: json.loads(m.decode('ascii')))
 	consumer.subscribe([consume_topic])
-	for message in consumer:
+	for message in consumer
+		print(message.value)
 		rate = analyse(message.value)
-		send(rate)
+		send(rate, topic, host)
 
 
 def analyse(review):
@@ -43,9 +45,9 @@ def analyse(review):
 	  rate = 10 * json_response["probability"]["neutral"]
 	return "{0:.2f}".format(rate)
 
-def send(rate):
-	kafka_topic = "rates"
-	kafka_host = "localhost:9092"
+def send(rate, topic, host):
+	kafka_topic = topic
+	kafka_host = host
 	try:
 		producer = KafkaProducer(bootstrap_servers=[kafka_host],
 			value_serializer=lambda v: json.dumps(v).encode('utf-8'))
@@ -55,6 +57,6 @@ def send(rate):
 	producer.flush()
 	producer.close()
 
-consume()
+consume(topic, host)
 
 
