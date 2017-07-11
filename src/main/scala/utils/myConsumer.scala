@@ -1,18 +1,11 @@
 package utils
 
+import core.{ReviewCollector}
 
-
-
-import core.{Review, ReviewCollector}
-
-import scala.collection.JavaConversions._
-import org.apache.kafka.clients.consumer.{ConsumerConfig, KafkaConsumer}
+import org.apache.kafka.clients.consumer.{ConsumerConfig}
 
 import play.api.libs.json._
-import utils.myConsumer.props
-import utils.myProducer.props
 
-import scala.collection.JavaConverters._
 /**
   * Created by Hamza on 04/07/2017.
   */
@@ -41,7 +34,6 @@ object myConsumer {
   def listenMovies(topic:String):Unit = {
     val msgs=getmsgs(topic)
     msgs.foreach(msg=>println(new String(msg)))
-      //consumer.subscribe(TOPIC)
   }
   def getmsgs(topic:String):Iterator[Array[Byte]] = {
     val config = new kafka.consumer.ConsumerConfig(props)

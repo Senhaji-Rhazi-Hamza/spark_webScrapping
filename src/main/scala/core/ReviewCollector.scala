@@ -4,7 +4,7 @@ import play.api.libs.json.{JsArray, JsObject, JsValue, Json}
 import utils.http.HttpUtils
 
 /**
-  * Created by muratcengiz on 02/07/17.
+  * Created by hamza on 02/07/17.
   */
 object ReviewCollector {
 

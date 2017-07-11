@@ -1,13 +1,9 @@
 package utils
 
-import java.util.{Date, Properties}
+import java.util.{Properties}
 
 import org.apache.kafka.clients.producer.{KafkaProducer, ProducerRecord}
 
-
-import org.scalatest.prop
-
-import scala.util.Random
 
 /**
   * Created by Hamza on 04/07/2017.

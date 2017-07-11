@@ -3,9 +3,6 @@ package utils
 import java.text.SimpleDateFormat
 import java.util.Date
 
-/**
-
-  */
 object DateUtils {
 
   val format = new SimpleDateFormat("yyyy-mm-dd")

@@ -1,11 +1,6 @@
 package core
 
-import java.io.PrintWriter
-
-import core.MovieCollector.{apiKey, getFirstResultMovieId}
-import org.apache.htrace.fasterxml.jackson.annotation.JsonValue
-import play.api.libs
-import play.api.libs.json
+import core.MovieCollector.{apiKey}
 import play.api.libs.json.{JsArray, JsObject, JsUndefined, JsValue}
 import utils.http.HttpUtils
 import utils.myProducer
@@ -47,7 +42,7 @@ object MovieBis extends {
         val json = addReview(a)
         json match {
           case Some(json) => producer.sendmsg(json.toString(),"key",topic)
-          case None => println("That didn't work.")
+          case None => println("No movie for that request.")
         }
       }
   }

@@ -2,9 +2,6 @@ package utils
 
 import play.api.libs.json.{JsError, JsSuccess, JsValue, Json}
 
-/**
-
-  */
 object GenreUtils {
 
   case class Genre(

@@ -5,7 +5,7 @@ import codecs
 from kafka import KafkaProducer
 from kafka import KafkaConsumer
 
-# Usage: $ python analyser.py "blablabla"
+# Usage: $ python analyser.py host_consume topicToConsume host_producer topiceToProduce
 
 
 # The use of this script is limited to 1000 call by ip adress
@@ -28,7 +28,7 @@ def process(consume, produce, topic1, topic2):
 
 	consumer = KafkaConsumer(group_id='my-group',
                          bootstrap_servers=consume_host)
-                         #value_deserializer=lambda m: json.loads(m.decode('ascii')))
+
 	consumer.subscribe([consume_topic])
 
 	producer = KafkaProducer(bootstrap_servers=[produce_host],
@@ -45,7 +45,6 @@ def process(consume, produce, topic1, topic2):
 		}
 		json_data = json.dumps(data)
 		producer.send(produce_topic, json_data)
-		#send(title, rate, topic2, produce)
 	producer.flush()
 	producer.close()
 
