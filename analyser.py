@@ -1,6 +1,7 @@
 import json
 import requests
 import sys
+import codecs
 from kafka import KafkaProducer
 from kafka import KafkaConsumer
 
@@ -11,22 +12,42 @@ from kafka import KafkaConsumer
 
 # Online sentiment analyser
 url = "http://text-processing.com/api/sentiment/"
-topic = sys.argv[2]
-host = sys.argv[1]
+consumeTopic = sys.argv[2]
+consumeIp = sys.argv[1]
+
+produceTopic = sys.argv[4]
+produceIp = sys.argv[3]
 lang = "english"
 
-def consume(topic, host):
-	consume_topic = topic
-	consume_host = host
+def process(consume, produce, topic1, topic2):
+	consume_topic = topic1
+	consume_host = consume
+
+	produce_topic = topic2
+	produce_host = produce
 
 	consumer = KafkaConsumer(group_id='my-group',
                          bootstrap_servers=consume_host)
                          #value_deserializer=lambda m: json.loads(m.decode('ascii')))
 	consumer.subscribe([consume_topic])
-	for message in consumer
-		print(message.value)
-		rate = analyse(message.value)
-		send(rate, topic, host)
+
+	producer = KafkaProducer(bootstrap_servers=[produce_host],
+			value_serializer=lambda v: json.dumps(v).encode('utf-8'))
+
+	for message in consumer:
+		movie = json.loads(message.value.decode('utf-8'))
+		title = movie["title"]
+		review = movie["reviews"][0]["content"]
+		rate = analyse(review)
+		data = {
+		"title": title,
+		"rate": rate
+		}
+		json_data = json.dumps(data)
+		producer.send(produce_topic, json_data)
+		#send(title, rate, topic2, produce)
+	producer.flush()
+	producer.close()
 
 
 def analyse(review):
@@ -45,18 +66,7 @@ def analyse(review):
 	  rate = 10 * json_response["probability"]["neutral"]
 	return "{0:.2f}".format(rate)
 
-def send(rate, topic, host):
-	kafka_topic = topic
-	kafka_host = host
-	try:
-		producer = KafkaProducer(bootstrap_servers=[kafka_host],
-			value_serializer=lambda v: json.dumps(v).encode('utf-8'))
-		producer.send(kafka_topic, rate)
-	except Exception as ex:
-		print(ex)
-	producer.flush()
-	producer.close()
 
-consume(topic, host)
+process(consumeIp, produceIp, consumeTopic, produceTopic)
 
 

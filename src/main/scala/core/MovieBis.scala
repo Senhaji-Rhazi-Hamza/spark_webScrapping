@@ -39,6 +39,7 @@ object MovieBis extends {
   }
   def getAllMovies(topic:String, Key:String):Unit ={
     apiKey = Key
+    println(apiKey)
     val producer = myProducer
     for(i <- 1 to 500)
       {
@@ -46,7 +47,7 @@ object MovieBis extends {
         val json = addReview(a)
         json match {
           case Some(json) => producer.sendmsg(json.toString(),"key",topic)
-          case None => ???
+          case None => println("That didn't work.")
         }
       }
   }
