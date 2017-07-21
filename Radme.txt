@@ -1,0 +1,17 @@
+#############################README######################################
+###what_is_about#####
+this is a basic use of kafka with spark for web scrapping, 
+using the api furnished by the movie db https://www.themoviedb.org/documentation/api
+
+###how_to_use###
+
+###who_i_am####
+   LastName : SENHAJI RHAZI
+   FirstName : Hamza
+   Login EPITA :senhaj_h
+   mail :hamza.senhaji-rhazi@epita.fr
+   Linkedin:https://fr.linkedin.com/in/hamza-senhaji-rhazi-72170678
+
+   I am student enginner in computer Science at EPITA in Paris from IONIS GROUP
+
+#############################README######################################
