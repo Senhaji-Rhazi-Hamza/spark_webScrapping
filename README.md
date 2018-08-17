@@ -15,13 +15,5 @@ and you can scrapp the movie db's reviews on json
 format using the functions coded in package utils and core
 
 
-###who_i_am####
-   LastName : SENHAJI RHAZI
-   FirstName : Hamza
-   Login EPITA :senhaj_h
-   mail :hamza.senhaji-rhazi@epita.fr
-   Linkedin:https://fr.linkedin.com/in/hamza-senhaji-rhazi-72170678
-
-   I am student enginner in computer Science at EPITA in Paris from IONIS GROUP
 
 #############################README######################################
